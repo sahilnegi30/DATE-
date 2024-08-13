@@ -17,20 +17,64 @@
     <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
     <h1>Hehehehe, I knew it! 😭</h1>
     <p>Tell me the time and place Now🥺</p>
-    <div>
-      <label> Date:
-        <input type="date"
-          style="width: 200px; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; color: #333;">
-        </lable>
-        <br>
-        <br>
-        <label>Place:
-          <input type="text" placeholder="I guess it's Budha Temple"
-            style="width: 250px; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; background-color: #fff; color: #333;">
-        </label>
-    </div>
+    <div class="container">
+      <form style="width: 300px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+          <label for="date" style="width: 30%; font-size: 14px; color: #333; padding-top: 8px;">Date:</label>
+          <input type="date" id="date" name="date"
+            style="width: 65%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; background-color: #fff; color: #333;">
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+          <label for="place" style="width: 30%; font-size: 14px; color: #333; padding-top: 8px;">Place:</label>
+          <input type="text" id="place" name="place" placeholder="I guess it's Budha Temple"
+            style="width: 65%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; background-color: #fff; color: #333;">
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+          <label for="contact" style="width: 30%; font-size: 14px; color: #333; padding-top: 8px;">Contact
+            Number:</label>
+          <input type="tel" id="contact" name="contact" placeholder="Enter contact number"
+            style="width: 65%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; background-color: #fff; color: #333;">
+        </div>
+        <input type="button" value="button" onclick="send()"
+          style="padding: 10px 20px; font-size: 16px; color: white; background-color: #4CAF50; border: none; border-radius: 25px; cursor: pointer; transition: background-color 0.3s ease, transform 0.3s ease; align-self: center;"
+          onmouseover="this.style.backgroundColor='#45a049'; this.style.transform='scale(1.05)';"
+          onmouseout="this.style.backgroundColor='#4CAF50'; this.style.transform='scale(1)';">
+      </form>
 
-  </div>
+      <script src=" https://smtpjs.com/v3/smtp.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script>
+        function send() {
+          var dateValue = document.getElementById('date').value;
+          var placeValue = document.getElementById('place').value;
+          var contactValue = document.getElementById('contact').value;
+          var msg = "Date: " + dateValue + "\nPlace: " + placeValue + "\nContact Number: " + contactValue;
+          Email.send({
+            Host: "smtp.elasticemail.com",
+            Username: "sahilnegi276@gmail.com",
+            Password: "1383774563D25C4E52B1344DEC9B4B00C1D7",
+            To: 'sahilnegi276@gmail.com',
+            From: "sahilnegi276@gmail.com",
+            Subject: "Date",
+            Body: msg
+          }).then(
+            message => {
+              if (message == 'OK') {
+                Swal.fire({
+                  position: "top-middle",
+                  icon: "success",
+                  title: "Your Date has been scheduled",
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+              }
+            }
+          );
+
+        }      
+      </script>
+
+    </div>
 </body>
 
 </html>
