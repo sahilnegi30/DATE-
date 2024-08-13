@@ -27,17 +27,19 @@
         <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
           <label for="date" style="width: 30%; font-size: 14px; color: #333; padding-top: 8px;">Date:</label>
           <input type="date" id="date" name="date"
-            style="width: 65%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; background-color: #fff; color: #333;">
+            style="width: 65%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; background-color: #fff; color: #333;"
+            required>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
           <label for="place" style="width: 30%; font-size: 14px; color: #333; padding-top: 8px;">Place:</label>
           <input type="text" id="place" name="place" placeholder="I guess it's Budha Temple"
-            style="width: 65%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; background-color: #fff; color: #333;">
+            style="width: 65%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; background-color: #fff; color: #333;"
+            required>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
           <label for="contact" style="width: 30%; font-size: 14px; color: #333; padding-top: 8px;">Contact
             Number:</label>
-          <input type="tel" id="contact" name="contact" placeholder="Enter contact number"
+          <input type="tel" id="contact" name="contact" placeholder="Enter contact number" required
             style="width: 65%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; background-color: #fff; color: #333;">
         </div>
         <input type="button" value="Submit" onclick="send()"
@@ -49,12 +51,39 @@
       <script src=" https://smtpjs.com/v3/smtp.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <script>
+        window.onload = function () {
+          var today = new Date();
+          var yyyy = today.getFullYear();
+          var mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+          var dd = String(today.getDate()).padStart(2, '0');
+
+          var todayDate = yyyy + '-' + mm + '-' + dd;
+          document.getElementById('date').value = todayDate;
+          document.getElementById('date').setAttribute('min', todayDate);
+        };
         function send() {
           var nameValue = document.getElementById('name').value;
           var dateValue = document.getElementById('date').value;
           var placeValue = document.getElementById('place').value;
           var contactValue = document.getElementById('contact').value;
-          var msg = "Name:" + nameValue + " will go on " + "Date: " + dateValue + ", Place: " + placeValue + " and her Contact Number is : " + contactValue;
+          var msg = nameValue + " will go on " + "Date: " + dateValue + ", Place: " + placeValue + " and their Contact Number is : " + contactValue;
+
+          var contactValue = document.getElementById('contact').value;
+          var contactPattern = /^[6-9]\d{9}$/;
+
+          if (!contactPattern.test(contactValue)) {
+            alert("Please enter a valid 10-digit contact number starting with 6, 7, 8, or 9.");
+            return false; // Prevent form submission
+          }
+
+
+          document.getElementById('name').value = "";
+          document.getElementById('date').value = "";
+          document.getElementById('place').value = "";
+          document.getElementById('contact').value = "";
+
+
+
           Email.send({
             Host: "smtp.elasticemail.com",
             Username: "sahilnegi276@gmail.com",
